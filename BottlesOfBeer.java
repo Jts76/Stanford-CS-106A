@@ -13,7 +13,8 @@ import acm.program.ConsoleProgram;
 
 public class BottlesOfBeer extends ConsoleProgram {
     public void run(){
-        int bottles = TOTAL_BOTTLES;
+        int bottles = readInt("How many bottles would you like to use?");
+        println("");
         while (bottles > 0) {
                 println(bottles + " bottles of beer on the wall.");
                 println(bottles + " bottles of beer.");
@@ -24,7 +25,5 @@ public class BottlesOfBeer extends ConsoleProgram {
         }
     }
 
-    /* Contants */
-    private static final int TOTAL_BOTTLES = 5;
 
 }
