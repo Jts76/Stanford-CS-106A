@@ -1,5 +1,9 @@
-/* Filename: FahrenheitToCelcius.java
- * =====================================
+/*
+ * Filename: FahrenheitToCelcius.java
+ * ---------------------------------------
+ * Author: Jts76 | Jts76@me.com
+ * ---------------------------------------
+ *
  * This program converts Fahrenheit to Celcius!
  * Author: Jts76 | Jts76@me.com
  */

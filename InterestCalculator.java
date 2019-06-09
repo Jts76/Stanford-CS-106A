@@ -1,5 +1,9 @@
-/* File: InterestCalculator.java
- * ------------------------------------------------------------
+/*
+ * Filename: InterestCalculator.java
+ * ---------------------------------------
+ * Author: Jts76 | Jts76@me.com
+ * ---------------------------------------
+ *
  * This program takes a balance and interest rate from the user
  * and calculates the interest for the year.
  */

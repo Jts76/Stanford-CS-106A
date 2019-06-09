@@ -1,6 +1,11 @@
-/* Filename: AreaFromRadius.java
- *============================================================
+/*
+ * Filename: AreaFromRadius.java
+ * ---------------------------------------
+ * Author: Jts76 | Jts76@me.com
+ * ---------------------------------------
+ *
  * This program calculates the area of a circle given the radius from the user.
+ * Author: Jts76 | Jts76@me.com
  */
 
 import acm.program.*;

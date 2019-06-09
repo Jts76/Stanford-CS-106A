@@ -1,6 +1,9 @@
 /*
  * File: InchesToCentimeters.java
- * ------------------------------
+ * ---------------------------------------
+ * Author: Jts76 | Jts76@me.com
+ * ---------------------------------------
+ *
  * This program converts inches to centimeters.
  */
 import acm.program.*;

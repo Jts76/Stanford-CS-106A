@@ -1,5 +1,9 @@
-/* Filename: CelciusToFahrenheit.java
- * =================================================
+/*
+ * Filename: CelciusToFahrenheit.java
+ * ---------------------------------------
+ * Author: Jts76 | Jts76@me.com
+ * ---------------------------------------
+ *
  * This program converts Celcius to Fahrenheit
  */
 import acm.program.*;

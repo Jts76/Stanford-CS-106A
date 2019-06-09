@@ -1,6 +1,10 @@
-/* File: DrawRobot.java      */
-
-/* This program draws a gray robot face on the canvas
+/*
+ * Filename: DrawRobot.java
+ * ---------------------------------------
+ * Author: Jts76 | Jts76@me.com
+ * ---------------------------------------
+ *
+ * This program draws a gray robot face on the canvas
  * with yellow eyes and a white mouth.
  */
 

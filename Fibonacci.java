@@ -1,3 +1,12 @@
+/*
+ * Filename: Fibonacci.java
+ * ---------------------------------------
+ * Author: Jts76 | Jts76@me.com
+ * ---------------------------------------
+ *
+ * This program prints the Fibonacci sequence!
+ *
+ */
 import acm.program.ConsoleProgram;
 
 public class Fibonacci extends ConsoleProgram {
