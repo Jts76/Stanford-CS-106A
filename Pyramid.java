@@ -41,8 +41,8 @@ public class Pyramid extends GraphicsProgram{
     /* Constants
      * ---------------------------------------- */
     private static final int BRICK_WIDTH = 30;
-    private static final int BRICK_HEIGHT = 10;
-    private static final int BRICKS_IN_BASE = 12;
+    private static final int BRICK_HEIGHT = 12;
+    private static final int BRICKS_IN_BASE = 14;
 
 }
 
