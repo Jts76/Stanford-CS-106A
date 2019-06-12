@@ -1,5 +1,5 @@
 /*
- * Filename: FahrenheitToCelcius.java
+ * Filename: FahrenheitToCelsius.java
  * ---------------------------------------
  * Author: Jts76 | Jts76@me.com
  * ---------------------------------------
@@ -9,11 +9,11 @@
  */
 import acm.program.*;
 
-public class FahrenheitToCelcius extends ConsoleProgram{
+public class FahrenheitToCelsius extends ConsoleProgram{
     public void run(){
-        println("Convert Fahrenheit to Celcius!");
+        println("Convert Fahrenheit to Celsius!");
         int fahrenheit = readInt("Enter a temperature in Fahrenheit:");
-        double celcius = (fahrenheit -32) * .56;
-        println(fahrenheit + " degrees fahrenheit is " + (int)celcius + " degrees celcius!");
+        double celsius = (fahrenheit -32) * .56;
+        println(fahrenheit + " degrees fahrenheit is " + (int)celsius + " degrees celsius!");
     }
 }

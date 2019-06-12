@@ -11,7 +11,7 @@
 import acm.program.*;
 
 public class InterestCalculator extends ConsoleProgram {
-    public void run(){
+    public void run() {
         println("Interest calculation program");
         int balance = readInt("Enter starting balance:");
         double interestRate = readDouble("Enter Annual Interest Rate:") / 100;
