@@ -42,13 +42,13 @@ public class DrawHouse extends GraphicsProgram {
 
         add(door);
 
-        // Create the doorknob
+        // Create and add the doorknob
         GOval doorknob = new GOval((start_x + HOUSE_WIDTH / 2 + DOOR_WIDTH /2 - DOORKNOB * 1.5),
                 start_y + HOUSE_HEIGHT - DOOR_HEIGHT / 2, DOORKNOB, DOORKNOB);
 
         add(doorknob);
 
-        // Create the roof
+        // Create and add the roof
         GLine roof1 = new GLine(start_x, start_y, start_x + HOUSE_WIDTH / 2, start_y - HOUSE_HEIGHT / 2);
 
         add(roof1);
@@ -61,8 +61,8 @@ public class DrawHouse extends GraphicsProgram {
     }
 
     /*Constants*/
-    private static final double HOUSE_WIDTH = 400;
-    private static final double HOUSE_HEIGHT = 200;
+    private static final double HOUSE_WIDTH = 500;
+    private static final double HOUSE_HEIGHT = 250;
     private static final double WINDOW_WIDTH = HOUSE_WIDTH * .25;
     private static final double WINDOW_HEIGHT = HOUSE_HEIGHT * .40;
     private static final double DOOR_WIDTH = HOUSE_WIDTH * .25;
