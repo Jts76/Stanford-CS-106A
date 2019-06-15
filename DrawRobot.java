@@ -45,7 +45,8 @@ public class DrawRobot extends GraphicsProgram {
         add (mouth);
     }
 
-    /* Constants */
+    /* Constants
+    *----------------------------------------------*/
 
     private static final int HEAD_WIDTH = 220;
     private static final int HEAD_HEIGHT = 300;
