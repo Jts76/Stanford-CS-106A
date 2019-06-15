@@ -12,6 +12,8 @@
 import acm.program.*;
 import acm.graphics.*;
 
+import java.awt.*;
+
 public class Pyramid extends GraphicsProgram{
 
     public void run(){
@@ -34,6 +36,8 @@ public class Pyramid extends GraphicsProgram{
     }
     private void makeBrick(int cx, int cy){
         GRect brick = new GRect(cx, cy, BRICK_WIDTH, BRICK_HEIGHT);
+        brick.setFilled(true);
+        brick.setFillColor(Color.RED.darker());
         add (brick);
     }
 
