@@ -49,4 +49,3 @@ public class Pyramid extends GraphicsProgram{
     private static final int BRICKS_IN_BASE = 14;
 
 }
-
