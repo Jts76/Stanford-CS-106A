@@ -31,7 +31,13 @@ public class Checkerboard extends GraphicsProgram {
                 sq.setFillColor(Color.GRAY);
                 add(sq);
                 GOval oval = new GOval(x + sqSize * .1, y + sqSize * .1, sqSize *.8, sqSize *.8);
-                oval.setFilled(i >= 5);
+                oval.setFilled(true);
+                if (i < 3) {
+                    oval.setFillColor(Color.RED);
+                } else {
+                    oval.setFillColor(Color.BLACK);
+
+                }
                 if ((i + j) % 2 != 0 && i < 3 || (i + j) % 2 != 0 && i > 4) {
                     add(oval);
                 }
