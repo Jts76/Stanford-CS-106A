@@ -24,16 +24,17 @@ public class Checkerboard extends GraphicsProgram {
         double sqSize = (double) getHeight() / N_ROWS;
         for (int i = 0; i < N_ROWS; i++) {
             for (int j = 0; j < N_COLUMNS; j++){
-                double x = j * sqSize;
+                double x = j * sqSize - (N_ROWS / 2.0) * sqSize + (double) getWidth() / 2;
                 double y = i * sqSize;
                 GRect sq = new GRect(x, y, sqSize, sqSize);
-                sq.setFilled(true);
-                if ((i + j) % 2 != 0){
-                    sq.setFillColor(Color.GRAY);
-                } else {
-                    sq.setFillColor(Color.RED.darker());
-                  }
+                sq.setFilled((i + j) % 2 != 0);
+                sq.setFillColor(Color.GRAY);
                 add(sq);
+                GOval oval = new GOval(x + sqSize * .1, y + sqSize * .1, sqSize *.8, sqSize *.8);
+                oval.setFilled(i >= 5);
+                if ((i + j) % 2 != 0 && i < 3 || (i + j) % 2 != 0 && i > 4) {
+                    add(oval);
+                }
             }
         }
     }
