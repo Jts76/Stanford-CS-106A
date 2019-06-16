@@ -27,6 +27,7 @@ public class BouncingBall extends GraphicsProgram {
         double rGen = 0;
         double dx = (getWidth() - OVAL_SIZE) / N_STEPS;
         double dy = (getHeight() - OVAL_SIZE) / N_STEPS;
+        /* This program will run until forced to stop by the user! */
         while (true) {
             if(oval.getX() + OVAL_SIZE >= getWidth() - 1) {
                 dx = -dx;
