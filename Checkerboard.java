@@ -37,8 +37,9 @@ public class Checkerboard extends GraphicsProgram {
                  * and they have a 10% cushion */
                 GOval oval = new GOval(x + sqSize * .1, y + sqSize * .1, sqSize *.8, sqSize *.8);
 
-                /* Fill the top 3 rows red and the bottom rows black.  Technically if you were to
-                 * add more pieces in the middle anything but the first 3 rows would be black. */
+                /* Fill the top 3 rows red and the bottom 3 rows black.
+                 * Technically if you were to add more pieces in the middle
+                 * everything but the first 3 rows would be black. */
                 oval.setFilled(true);
                 if (i < 3) {
                     oval.setFillColor(Color.RED);
