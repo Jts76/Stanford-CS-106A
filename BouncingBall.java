@@ -12,6 +12,7 @@
 
 import acm.program.*;
 import acm.graphics.*;
+import acm.util.RandomGenerator;
 
 import java.awt.*;
 
@@ -22,19 +23,26 @@ public class BouncingBall extends GraphicsProgram {
         oval.setFilled(true);
         oval.setFillColor(Color.ORANGE);
         add(oval);
+        RandomGenerator rgen = RandomGenerator.getInstance();
+        double rGen = 0;
         double dx = (getWidth() - OVAL_SIZE) / N_STEPS;
-        double dy = (getHeight() - OVAL_SIZE) / N_STEPS * 1.75;
+        double dy = (getHeight() - OVAL_SIZE) / N_STEPS;
         while (true) {
             if(oval.getX() + OVAL_SIZE >= getWidth() - 1) {
                 dx = -dx;
             } else if( oval.getX() <= 0) {
-                dx = (getWidth() - OVAL_SIZE) / N_STEPS;
+                dx = ((getWidth() - OVAL_SIZE) / N_STEPS)  * rGen;
+                rGen = rgen.nextDouble(1.0, 1.25);
+                println(rGen);
+
             } else if(oval.getY() + OVAL_SIZE >= getHeight()) {
                 dy = -dy;
             } else if(oval.getY() <= 0) {
-                dy = (getHeight() - OVAL_SIZE) / N_STEPS;
-            }
+                dy = ((getHeight() - OVAL_SIZE) / N_STEPS)  * rGen;
+                rGen = rgen.nextDouble(1.0, 1.25);
+                println(rGen);
 
+            }
             oval.move(dx, dy);
             pause(PAUSE_TIME);
         }
@@ -44,7 +52,7 @@ public class BouncingBall extends GraphicsProgram {
  *  CONSTANTS
  *  ================================== */
     private static final int N_STEPS = 1000;
-    private static final int PAUSE_TIME = 7;
+    private static final int PAUSE_TIME = 3;
     private static final double OVAL_SIZE = 50;
 
 }
