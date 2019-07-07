@@ -86,6 +86,16 @@ public class Breakout extends GraphicsProgram {
                     dy = changeDirection(dy);
                 }
             } else if (collider == paddle) {
+                double pw = paddle.getWidth() / 4;
+                double px = paddle.getX();
+                double bx = ball.getX();
+                double bc = ball.getX() + BALL_RADIUS;
+
+                if (bc < px + pw) {
+                    dx = changeDirection(dx);
+                } else if (bc > (px + PADDLE_WIDTH) - pw){
+                    dx = changeDirection(dx);
+                }
 //                dx = changeDirection(dx);
                 dy = changeDirection(dy);
             } else {
