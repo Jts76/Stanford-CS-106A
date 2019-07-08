@@ -123,7 +123,7 @@ public class Breakout extends GraphicsProgram {
                 }
 
             } else if (collider == num_Bricks || collider == numLives) {
-
+                collider = null;
             } else if (collider != null) {
                 remove(collider);
                 numBricks -= 1;
@@ -314,7 +314,9 @@ public class Breakout extends GraphicsProgram {
 
     private void clear() {
         remove(ball);
+        ball = null;
         remove(paddle);
+        paddle = null;
 
     }
     /* SOUND ***************************************************************************/
@@ -392,7 +394,7 @@ public class Breakout extends GraphicsProgram {
     /**
      * Width and height of application window in pixels
      */
-    public static final int APPLICATION_WIDTH = 500;
+    public static final int APPLICATION_WIDTH = 400;
     public static final int APPLICATION_HEIGHT = 600;
 
     /**
