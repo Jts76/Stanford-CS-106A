@@ -11,8 +11,12 @@ import acm.graphics.*;
 import acm.program.*;
 import acm.util.RandomGenerator;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 /**
  * Breakout Game
@@ -27,14 +31,18 @@ public class Breakout extends GraphicsProgram {
      ********************************/
     private GRect paddle;
     private GOval ball;
-    // Velocity of the ball
-    private double vx = 4;
     private int lives = NTURNS;
     private int numBricks = NBRICK_ROWS * NBRICKS_PER_ROW;
+    // Pause in milliseconds
+    private int ps = 10;
+    // Velocity of the ball
+    private double vx = 3;
+    //private Clip bounceClip = bounceClip();
+    private RandomGenerator rgen = RandomGenerator.getInstance();
 
-/*
- * Labels
- **********************************************************************************/
+    /*
+     * Labels
+     **********************************************************************************/
 
     private GLabel numLives = new GLabel("Lives: " + lives);
     private GLabel num_Bricks = new GLabel("Bricks Left: " + numBricks);
@@ -56,6 +64,7 @@ public class Breakout extends GraphicsProgram {
      */
     public void run() {
         setup();
+        waitForClick();
         play();
     }
 
@@ -63,45 +72,72 @@ public class Breakout extends GraphicsProgram {
      * Starts the game!
      */
     public void play() {
-        RandomGenerator rgen = RandomGenerator.getInstance();
         double dx = rgen.nextDouble(1.0, 3.0);
         if (rgen.nextBoolean(0.5)) {
             dx = changeDirection(dx);
         }
         double dy = vx;
-        waitForClick();
+        numLives.setLabel("Lives: " + (lives - 1));
         while (numBricks > 0 && lives > 0) {
             ball.move(dx, dy);
+            println(ball.getX() + ", " + ball.getY());
             GObject collider = getCollidingObject();
             println(collider);
-            pause(10);
-            if (collider == null) {
-                if (ball.getX() + BALL_RADIUS * 2 >= getWidth() - 1) {
-                    dx = changeDirection(dx);
-                } else if (ball.getY() + BALL_RADIUS * 2 >= getHeight()) {
-                    loseLife();
-                } else if (ball.getX() <= 1) {
-                    dx = changeDirection(dx);
-                } else if (ball.getY() <= 1) {
-                    dy = changeDirection(dy);
-                }
-            } else if (collider == paddle) {
+            pause(ps);
+            if (ball.getX() + BALL_RADIUS * 2 >= APPLICATION_WIDTH - 1) {
+                dx = changeDirection(dx);
+                bounceClip();
+            } else if (ball.getY() + BALL_RADIUS * 2 >= APPLICATION_HEIGHT) {
+                loseLife();
+            } else if (ball.getX() <= 0) {
+                dx = changeDirection(dx);
+                bounceClip();
+            } else if (ball.getY() <= 0) {
+                dy = changeDirection(dy);
+                bounceClip();
+            }
+            if (collider == paddle) {
                 double pw = paddle.getWidth() / 4;
                 double px = paddle.getX();
-                double bx = ball.getX();
+                double py = paddle.getY();
                 double bc = ball.getX() + BALL_RADIUS;
+                double by = ball.getY() + BALL_RADIUS * 2;
 
-                if (bc < px + pw) {
-                    dx = changeDirection(dx);
-                } else if (bc > (px + PADDLE_WIDTH) - pw){
-                    dx = changeDirection(dx);
+                if (by > py) {
+                    if (bc < px + pw) {
+                        dx = changeDirection(dx);
+                        bounceClip();
+
+                    } else if (bc > (px + PADDLE_WIDTH) - pw) {
+                        dx = changeDirection(dx);
+                        bounceClip();
+
+                    }
+                    dy = changeDirection(dy);
+
+                    if (dx < 0) {
+                        dx = rgen.nextDouble(1.0, 3.0);
+                        dx = -dx;
+                        bounceClip();
+                    } else {
+                        dx = rgen.nextDouble(1.0, 3.0);
+                        bounceClip();
+                    }
                 }
-//                dx = changeDirection(dx);
-                dy = changeDirection(dy);
-            } else {
+
+            } else if (collider == num_Bricks || collider == numLives) {
+//                bounceClip();
+//                play();
+//                collider = null;
+//                dy = changeDirection(dy);
+            } else if (collider != null) {
                 remove(collider);
                 numBricks -= 1;
                 num_Bricks.setLabel("Bricks Left: " + numBricks);
+                brickPopClip();
+                if (numBricks % 20 == 0) {
+                    ps -= 1;
+                }
                 dy = changeDirection(dy);
             }
         }
@@ -147,29 +183,55 @@ public class Breakout extends GraphicsProgram {
                 int x = j * (BRICK_WIDTH + BRICK_SEP);
                 int y = i * (BRICK_HEIGHT + BRICK_SEP);
                 GRect bricks = new GRect(x + BRICK_SEP, y + BRICK_Y_OFFSET, BRICK_WIDTH, BRICK_HEIGHT);
-                int colorPicker = i / (NBRICK_ROWS / 5);
-                switch (colorPicker) {
-                    case 0:
-                        setColor(bricks, Color.RED);
-                        break;
-                    case 1:
-                        setColor(bricks, Color.ORANGE);
+                if (NBRICK_ROWS / 5 != 0) {
+                    int colorPicker = i / (NBRICK_ROWS / 5);
+                    switch (colorPicker) {
+                        case 0:
+                            setColor(bricks, Color.RED);
+                            break;
+                        case 1:
+                            setColor(bricks, Color.ORANGE);
 
-                        break;
-                    case 2:
-                        setColor(bricks, Color.YELLOW);
+                            break;
+                        case 2:
+                            setColor(bricks, Color.YELLOW);
 
-                        break;
-                    case 3:
-                        setColor(bricks, Color.GREEN);
+                            break;
+                        case 3:
+                            setColor(bricks, Color.GREEN);
 
-                        break;
-                    case 4:
-                        setColor(bricks, Color.CYAN);
-                        break;
-                    default:
-                        setColor(bricks, Color.MAGENTA);
-                        break;
+                            break;
+                        case 4:
+                            setColor(bricks, Color.CYAN);
+                            break;
+                        default:
+                            setColor(bricks, Color.MAGENTA);
+                            break;
+                    }
+                } else {
+                    switch (i) {
+                        case 0:
+                            setColor(bricks, Color.RED);
+                            break;
+                        case 1:
+                            setColor(bricks, Color.ORANGE);
+
+                            break;
+                        case 2:
+                            setColor(bricks, Color.YELLOW);
+
+                            break;
+                        case 3:
+                            setColor(bricks, Color.GREEN);
+
+                            break;
+                        case 4:
+                            setColor(bricks, Color.CYAN);
+                            break;
+                        default:
+                            setColor(bricks, Color.MAGENTA);
+                            break;
+                    }
                 }
             }
         }
@@ -178,7 +240,7 @@ public class Breakout extends GraphicsProgram {
 
     private void setColor(GRect obj, Color color) {
         obj.setFilled(true);
-        obj.setColor(color);
+        obj.setColor(Color.BLACK);
         obj.setFillColor(color);
         add(obj);
     }
@@ -216,7 +278,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     private double changeDirection(double x) {
-        if (x >= 0) {
+        if (x > 0) {
             x = -x;
         } else {
             x = Math.abs(x);
@@ -226,6 +288,7 @@ public class Breakout extends GraphicsProgram {
 
     private void loseLife() {
         lives -= 1;
+        loseLifeClip();
         numLives.setLabel("Lives: " + lives);
         if (lives <= 0){
             gameOver();
@@ -235,7 +298,7 @@ public class Breakout extends GraphicsProgram {
             ball.setLocation(getWidth() / 2 - BALL_RADIUS / 2, getHeight() / 2 - BALL_RADIUS / 2);
             waitForClick();
             remove(livesRemaining);
-            play();
+//            play();
         }
     }
 
@@ -244,11 +307,14 @@ public class Breakout extends GraphicsProgram {
             clear();
             GLabel gameOver = new GLabel("Game Over, you lose!");
             add(gameOver, getWidth() / 2 - gameOver.getWidth() / 2, getHeight() / 2 - gameOver.getHeight() / 2);
+            gameOverClip();
         } else {
             clear();
             GLabel gameOver = new GLabel("Game Over, You have WON!!");
             add(gameOver, getWidth() / 2 - gameOver.getWidth() / 2, getHeight() / 2 - gameOver.getHeight() / 2);
-
+            winningGameClip();
+            pause(2100);
+            voiceWinningGameClip();
         }
     }
 
@@ -257,6 +323,76 @@ public class Breakout extends GraphicsProgram {
         remove(paddle);
 
     }
+    /* SOUND ***************************************************************************/
+
+    private void bounceClip() {
+        try {
+        AudioInputStream clip = AudioSystem.getAudioInputStream(new File("src/sounds/media.io_zapsplat_sport_ball_netball_single_cheap_bounce_court_002_31147.wav"));
+        Clip bounceClip = AudioSystem.getClip();
+        bounceClip.open(clip);
+        bounceClip.start();
+        bounceClip.setFramePosition(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }private void gameOverClip() {
+        try {
+        AudioInputStream clip = AudioSystem.getAudioInputStream(new File("src/sounds/little_robot_sound_factory_Jingle_Lose_00.wav"));
+        Clip gameOverClip = AudioSystem.getClip();
+        gameOverClip.open(clip);
+        gameOverClip.start();
+        gameOverClip.setFramePosition(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }private void loseLifeClip() {
+        try {
+        AudioInputStream clip = AudioSystem.getAudioInputStream(new File("src/sounds/zapsplat_multimedia_game_retro_musical_descend_fail_lose_life_21483.wav"));
+        Clip loseLifeClip = AudioSystem.getClip();
+        loseLifeClip.open(clip);
+        loseLifeClip.start();
+        loseLifeClip.setFramePosition(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }private void winningGameClip() {
+        try {
+        AudioInputStream clip = AudioSystem.getAudioInputStream(new File("src/sounds/media.io_little_robot_sound_factory_Jingle_Win_00.wav"));
+        Clip winningGameClip = AudioSystem.getClip();
+        winningGameClip.open(clip);
+        winningGameClip.start();
+        winningGameClip.setFramePosition(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void voiceWinningGameClip() {
+        try {
+        AudioInputStream clip = AudioSystem.getAudioInputStream(new File("src/sounds/media.io_zapsplat_multimedia_male_voice_processed_says_you_win_002_21573.wav"));
+        Clip voiceWinningGameClip = AudioSystem.getClip();
+        voiceWinningGameClip.open(clip);
+        voiceWinningGameClip.start();
+        voiceWinningGameClip.setFramePosition(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void brickPopClip() {
+        try {
+        AudioInputStream clip = AudioSystem.getAudioInputStream(new File("src/sounds/zapsplat_multimedia_game_designed_pop_wet_009_26321.wav"));
+        Clip brickPopClip = AudioSystem.getClip();
+        brickPopClip.open(clip);
+        brickPopClip.start();
+        brickPopClip.setFramePosition(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     /* CONSTANTS ****************************************************/
     /**
