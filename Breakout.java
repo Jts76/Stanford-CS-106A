@@ -37,12 +37,9 @@ public class Breakout extends GraphicsProgram {
     private int ps = 10;
     // Velocity of the ball
     private double vx = 3;
-    //private Clip bounceClip = bounceClip();
     private RandomGenerator rgen = RandomGenerator.getInstance();
 
-    /*
-     * Labels
-     **********************************************************************************/
+    /* Labels **********************************************************************************/
 
     private GLabel numLives = new GLabel("Lives: " + lives);
     private GLabel num_Bricks = new GLabel("Bricks Left: " + numBricks);
@@ -126,10 +123,7 @@ public class Breakout extends GraphicsProgram {
                 }
 
             } else if (collider == num_Bricks || collider == numLives) {
-//                bounceClip();
-//                play();
-//                collider = null;
-//                dy = changeDirection(dy);
+
             } else if (collider != null) {
                 remove(collider);
                 numBricks -= 1;
